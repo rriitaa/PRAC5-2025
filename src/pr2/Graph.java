@@ -76,15 +76,20 @@ public class Graph<V> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (V v : adjacencyList.keySet()) {
-            sb.append(v.toString()).append(": ");
-            for (V adj : adjacencyList.get(v)) {
-                sb.append(adj.toString()).append(" ");
+        List<V> keys = new ArrayList<>(adjacencyList.keySet());
+            for (int i = 0; i < keys.size(); i++) {
+                V v = keys.get(i);
+                sb.append(v.toString()).append(": ");
+                List<V> adjList = new ArrayList<>(adjacencyList.get(v));
+            for (int j = 0; j < adjList.size(); j++) {
+                sb.append(adjList.get(j).toString()).append(" ");
             }
             sb.append("\n");
         }
-        return sb.toString();
+                return sb.toString();
     }
+
+
 
     /**
     * Obtiene, en caso de que exista, el camino más corto entre
@@ -116,7 +121,9 @@ public class Graph<V> {
                 return path;
             }
 
-            for (V neighbor : adjacencyList.getOrDefault(last, new HashSet<>())) {
+            List<V> neighbors = new ArrayList<>(adjacencyList.getOrDefault(last, new HashSet<>()));
+            for (int i = 0; i < neighbors.size(); i++) {
+                V neighbor = neighbors.get(i);
                 if (!visited.contains(neighbor)) {
                     visited.add(neighbor);
                     List<V> newPath = new ArrayList<>(path);
@@ -124,6 +131,7 @@ public class Graph<V> {
                     queue.add(newPath);
                 }
             }
+
         }
 
         return null;
